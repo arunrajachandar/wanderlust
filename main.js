@@ -36,8 +36,21 @@ renderVenues(jsonResponse.response.groups[0]);
   }
 }
 
-const getForecast = () => {
-
+const getForecast = async() => {
+  const city= $input.val();
+  const urlToFetch = `${weatherUrl}?q=${city}&appid=${openWeatherKey}`;
+  try{
+    const response = await fetch(urlToFetch);
+    console.log(response);
+    if(response.ok){
+      const jsonResponse = await response.json();
+      console.log(jsonResponse);
+renderForecast(jsonResponse);
+    }
+    
+  }catch(error){
+    console.log(error);
+  }
 }
 
 
@@ -47,7 +60,7 @@ const renderVenues = (venues) => {
     // Add your code here:
     let venuesDetails = venues.items[index].venue;
     let venueContent = createVenueHTML(venuesDetails.name,
-      venuesDetails.categories[0].icon.prefix+venuesDetails.categories[0].icon.suffix,
+      venuesDetails.categories[0].icon,
       venuesDetails.location);
     $venue.append(venueContent);
   });
@@ -57,7 +70,7 @@ const renderVenues = (venues) => {
 const renderForecast = (day) => {
   // Add your code here:
   
-	let weatherContent = '';
+  let weatherContent = createWeatherHTML(day);
   $weatherDiv.append(weatherContent);
 }
 

@@ -1,7 +1,7 @@
 
 let createVenueHTML = (name, iconSource, location) => {
     return `<h2>${name}</h2>
-    <img class="venueimage" src="${iconSource}"/>
+    <img class="venueimage" src="${iconSource.prefix+"bg_64"+iconSource.suffix}"/>
     <h3>Address:</h3>
     <p>${location.address}</p>
     <p>${location.city}</p>
