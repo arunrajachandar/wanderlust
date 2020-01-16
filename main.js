@@ -1,3 +1,4 @@
+
 // Foursquare API Info
 const clientId = 'FV30URZXLCYNDVJWNS0YMH14O0O0R01YE0MRHYVOJFW3WDRN';
 const clientSecret = 'MK3J2LY2RZAVD5OTM2QADQRYNIDFH5PPN54MEQTUPAMOBCKG';
@@ -23,12 +24,11 @@ const getVenues = async() => {
     console.log(urlToFetch);
   try{
     const response = await fetch(urlToFetch);
+    console.log(response);
     if(response.ok){
       const jsonResponse = await response.json();
-      createVenueHTML(jsonResponse.groups[0].items[0].venue.name,
-      jsonResponse.groups[0].items[0].venue.categories[0].icon.prefix,
-      jsonResponse.groups[0].items[0].venue.location);
-
+      console.log(jsonResponse);
+renderVenues(jsonResponse.response.groups[0]);
     }
     
   }catch(error){
@@ -45,11 +45,13 @@ const getForecast = () => {
 const renderVenues = (venues) => {
   $venueDivs.forEach(($venue, index) => {
     // Add your code here:
-
-    let venueContent = '';
+    let venuesDetails = venues.items[index].venue;
+    let venueContent = createVenueHTML(venuesDetails.name,
+      venuesDetails.categories[0].icon.prefix+venuesDetails.categories[0].icon.suffix,
+      venuesDetails.location);
     $venue.append(venueContent);
   });
-  $destination.append(`<h2>${venues[0].location.city}</h2>`);
+  $destination.append(`<h2>${venues.items[0].venue.location.city}</h2>`);
 }
 
 const renderForecast = (day) => {
